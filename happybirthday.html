@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Happy Birthday Devi</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+body,html{
+  margin:0; padding:0; height:100%; overflow:hidden; background:#0D1B2A; font-family:sans-serif;
+}
+#birthdayText{
+  font-size:3em; color:gold; text-align:center;
+  text-shadow:0 0 10px #fff,0 0 20px #FFD700,0 0 30px #FFA500,0 0 40px #fff;
+  position:absolute; top:50%; left:50%; transform:translate(-50%,-50%);
+}
+.heart{
+  position:absolute; width:25px; height:25px; background:red; transform:rotate(45deg); 
+  border-radius:50% 50% 0 0;
+  animation: floatHeart linear infinite;
+}
+@keyframes floatHeart{
+  0%{opacity:1; transform:translateY(0) rotate(45deg);}
+  100%{opacity:0; transform:translateY(-800px) rotate(45deg);}
+}
+.bird{
+  position:absolute; width:50px; animation:fly linear infinite;
+}
+@keyframes fly{
+  0%{left:-60px;}
+  100%{left:110%;}
+}
+</style>
+</head>
+<body>
+
+<div id="birthdayText">🎉 Happy Birthday Devi 💖🎂 🎉</div>
+
+<script>
+// Fireworks
+let duration=5000;
+let animationEnd=Date.now()+duration;
+let defaults={startVelocity:30,spread:360,ticks:60,zIndex:999};
+function randomInRange(min,max){return Math.random()*(max-min)+min;}
+let interval=setInterval(function(){
+  let timeLeft=animationEnd-Date.now();
+  if(timeLeft<=0)return clearInterval(interval);
+  let particleCount=50*(timeLeft/duration);
+  confetti(Object.assign({},defaults,{particleCount,origin:{x:randomInRange(0,1),y:Math.random()*0.5},colors:['#ff0','#ff9500','#fff','#ff0040','#00ffff']}));
+},250);
+
+// Floating hearts
+function createHeart(){
+  const heart=document.createElement('div');
+  heart.className='heart';
+  heart.style.left=Math.random()*100+'%';
+  heart.style.backgroundColor=['#ff69b4','#ff1493','#ff4500','#ffb6c1'][Math.floor(Math.random()*4)];
+  heart.style.animationDuration=(Math.random()*3+3)+'s';
+  document.body.appendChild(heart);
+  setTimeout(()=>document.body.removeChild(heart),6000);
+}
+setInterval(createHeart,300);
+
+// Birds animation
+function createBird(){
+  const bird=document.createElement('img');
+  bird.src='birds.gif';
+  bird.className='bird';
+  bird.style.top=Math.random()*50+'%';
+  bird.style.animationDuration=(Math.random()*5+5)+'s';
+  document.body.appendChild(bird);
+  setTimeout(()=>document.body.removeChild(bird),10000);
+}
+setInterval(createBird,2000);
+</script>
+
+</body>
+</html>

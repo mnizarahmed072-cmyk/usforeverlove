@@ -4,25 +4,23 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>UsForeverLove</title>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 <style>
-body, html{margin:0;padding:0;height:100%;overflow:hidden;font-family:sans-serif;}
+body,html{margin:0;padding:0;height:100%;overflow:hidden;font-family:sans-serif;}
 #loginOverlay{
-  position:fixed; top:0; left:0; width:100%; height:100%;
+  position:fixed;top:0;left:0;width:100%;height:100%;
   background:url('beach_sunset.jpeg') no-repeat center center;
   background-size:cover;
-  display:flex; align-items:center; justify-content:center;
-  z-index:999;
+  display:flex;align-items:center;justify-content:center;
 }
 #loginBox{
-  background: rgba(255,182,193,0.85); padding:30px; border-radius:25px; 
+  background: rgba(255,182,193,0.85); padding:30px; border-radius:25px;
   box-shadow:0 5px 15px rgba(0,0,0,0.3); width:90%; max-width:400px; text-align:center;
 }
 #loginBox input{padding:15px;margin:10px;border-radius:12px;border:1px solid #ccc;width:90%; font-size:18px;}
 #loginBox button{padding:14px 25px;border:none;border-radius:18px;background:#FF69B4;color:white;cursor:pointer; font-size:20px; transition: transform 0.3s;}
 #loginBox button:hover{transform:scale(1.1);}
-#mcqueen{position:absolute; bottom:50px; left:-25%; width:30vw; max-width:250px; z-index:1; animation: mcqueenMove 8s linear infinite;}
-@keyframes mcqueenMove {0%{left:-25%;}100%{left:110%;}}
+#mcqueen{position:absolute;bottom:50px;left:-25%;width:30vw;max-width:250px;z-index:1;animation:mcqueenMove 8s linear infinite;}
+@keyframes mcqueenMove{0%{left:-25%;}100%{left:110%;}}
 </style>
 </head>
 <body>
@@ -37,38 +35,25 @@ body, html{margin:0;padding:0;height:100%;overflow:hidden;font-family:sans-serif
 </div>
 
 <script>
-// Credentials
-const VALID_USER = "DN4Ever";
-const VALID_PASS = "LILY";
-let noClickCount = 0;
+const VALID_USER="DN4Ever";
+const VALID_PASS="LILY";
+let noClickCount=0;
 
+// Login function
 function login(){
   const uid=document.getElementById("userid").value.trim();
   const pwd=document.getElementById("pass").value.trim();
-  if(!uid||!pwd){alert("Both fields are required!"); return;}
+  if(!uid||!pwd){alert("Both fields required!");return;}
 
   if(uid===VALID_USER && pwd===VALID_PASS){
-    const newTab = window.open("","_blank");
+    const newTab=window.open("","_blank");
     if(newTab && newTab.document){
       newTab.document.write(`
-        <head>
-          <title>Forever?</title>
-          <style>
-            body{display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;background:linear-gradient(to bottom,#FFDAB9,#FFB6C1);}
-            .box{background:#fff;padding:20px 30px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.2);text-align:center;max-width:400px;}
-            .btns{margin-top:15px;display:flex;gap:10px;justify-content:center;}
-            button{padding:10px 16px;border:0;border-radius:8px;font-size:16px;cursor:pointer;}
-            .yes{background:#1e7a3a;color:#fff;}
-            .no{background:#c62828;color:#fff;}
-          </style>
-        </head>
-        <body>
-          <div class="box">
-            <h1>Will you take your cutiee pie Nisar as your forever…?</h1>
-            <div class="btns">
-              <button class="yes" onclick="window.opener.celebrateYes(); window.close();">Yes 💍</button>
-              <button class="no" onclick="window.opener.handleNoClick(); window.close();">No 😅</button>
-            </div>
+        <body style="display:flex;flex-direction:column;justify-content:center;align-items:center;height:100vh;font-family:sans-serif;">
+          <h1>Will you take your cutiee pie Nisar as your forever…?</h1>
+          <div style="margin-top:20px;">
+            <button onclick="window.location.href='happybirthday.html';" style="margin-right:10px;padding:10px 20px;background:#1e7a3a;color:#fff;border:none;border-radius:8px;cursor:pointer;">Yes 💍</button>
+            <button onclick="window.opener.handleNoClick();" style="padding:10px 20px;background:#c62828;color:#fff;border:none;border-radius:8px;cursor:pointer;">No 😅</button>
           </div>
         </body>
       `);
@@ -76,3 +61,20 @@ function login(){
     }
   } else { alert("Wrong credentials. Try again!"); }
 }
+
+// Handle No click
+function handleNoClick(){
+  noClickCount++;
+  const videoFiles=["no1.mp4","no2.mp4","no3.mp4"];
+  if(noClickCount<=3){
+    let vid=document.createElement("video");
+    vid.src=videoFiles[noClickCount-1]; vid.autoplay=true; vid.controls=true;
+    vid.style.position="fixed"; vid.style.top="50%"; vid.style.left="50%";
+    vid.style.transform="translate(-50%,-50%)"; vid.style.width="80%"; vid.style.maxWidth="600px"; vid.style.zIndex=10000;
+    document.body.appendChild(vid);
+  } else { alert("Now please click YES! 💖"); }
+}
+</script>
+
+</body>
+</html>
