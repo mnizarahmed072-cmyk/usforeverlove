@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UsForeverLove</title>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<style>
+body, html{margin:0;padding:0;height:100%;overflow:hidden;font-family:sans-serif;}
+#loginOverlay{
+  position:fixed; top:0; left:0; width:100%; height:100%;
+  background:url('beach_sunset.jpeg') no-repeat center center;
+  background-size:cover;
+  display:flex; align-items:center; justify-content:center;
+  z-index:999;
+}
+#loginBox{
+  background: rgba(255,182,193,0.85); padding:30px; border-radius:25px; 
+  box-shadow:0 5px 15px rgba(0,0,0,0.3); width:90%; max-width:400px; text-align:center;
+}
+#loginBox input{padding:15px;margin:10px;border-radius:12px;border:1px solid #ccc;width:90%; font-size:18px;}
+#loginBox button{padding:14px 25px;border:none;border-radius:18px;background:#FF69B4;color:white;cursor:pointer; font-size:20px; transition: transform 0.3s;}
+#loginBox button:hover{transform:scale(1.1);}
+#mcqueen{position:absolute; bottom:50px; left:-25%; width:30vw; max-width:250px; z-index:1; animation: mcqueenMove 8s linear infinite;}
+@keyframes mcqueenMove {0%{left:-25%;}100%{left:110%;}}
+</style>
+</head>
+<body>
+
+<div id="loginOverlay">
+  <div id="loginBox">
+    <input type="text" placeholder="User ID" id="userid">
+    <input type="password" placeholder="Password" id="pass">
+    <button onclick="login()">Login</button>
+  </div>
+  <img src="mcqueen.gif" id="mcqueen">
+</div>
+
+<script>
+// Credentials
+const VALID_USER = "DN4Ever";
+const VALID_PASS = "LILY";
+let noClickCount = 0;
+
+function login(){
+  const uid=document.getElementById("userid").value.trim();
+  const pwd=document.getElementById("pass").value.trim();
+  if(!uid||!pwd){alert("Both fields are required!"); return;}
+
+  if(uid===VALID_USER && pwd===VALID_PASS){
+    const newTab = window.open("","_blank");
+    if(newTab && newTab.document){
+      newTab.document.write(`
+        <head>
+          <title>Forever?</title>
+          <style>
+            body{display:flex;justify-content:center;align-items:center;height:100vh;margin:0;font-family:sans-serif;background:linear-gradient(to bottom,#FFDAB9,#FFB6C1);}
+            .box{background:#fff;padding:20px 30px;border-radius:12px;box-shadow:0 6px 20px rgba(0,0,0,0.2);text-align:center;max-width:400px;}
+            .btns{margin-top:15px;display:flex;gap:10px;justify-content:center;}
+            button{padding:10px 16px;border:0;border-radius:8px;font-size:16px;cursor:pointer;}
+            .yes{background:#1e7a3a;color:#fff;}
+            .no{background:#c62828;color:#fff;}
+          </style>
+        </head>
+        <body>
+          <div class="box">
+            <h1>Will you take your cutiee pie Nisar as your forever…?</h1>
+            <div class="btns">
+              <button class="yes" onclick="window.opener.celebrateYes(); window.close();">Yes 💍</button>
+              <button class="no" onclick="window.opener.handleNoClick(); window.close();">No 😅</button>
+            </div>
+          </div>
+        </body>
+      `);
+      newTab.document.close();
+    }
+  } else { alert("Wrong credentials. Try again!"); }
+}
+
+// Fireworks & Birthday
+function celebrateYes(){
+  document.body.style.background="linear-gradient(to bottom,#0D1B2A,#1B263B)";
+  let duration=5000;
+  let animationEnd=Date.now()+duration;
+  let defaults={startVelocity:30,spread:360,ticks:60,zIndex:999};
+  function randomInRange(min,max){return Math.random()*(max-min)+min;}
+  let interval=setInterval(function(){
+    let timeLeft=animationEnd-Date.now();
+    if(timeLeft<=0)return clearInterval(interval);
+    let particleCount=50*(timeLeft/duration);
+    confetti(Object.assign({},defaults,{particleCount,origin:{x:randomInRange(0,1),y:Math.random()*0.5},colors:['#ff0','#ff9500','#fff','#ff0040','#00ffff']}));
+  },250);
+
+  const textDiv=document.createElement("div");
+  textDiv.innerHTML="🎉 Happy Birthday Devi 💖🎂 🎉";
+  textDiv.style.position="fixed";
+  textDiv.style.top="50%"; textDiv.style.left="50%";
+  textDiv.style.transform="translate(-50%,-50%)";
+  textDiv.style.fontSize="3em"; textDiv.style.fontWeight="bold";
+  textDiv.style.color="gold";
+  textDiv.style.textShadow="0 0 10px #fff,0 0 20px #FFD700,0 0 30px #FFA500,0 0 40px #fff";
+  textDiv.style.zIndex=1000; textDiv.style.textAlign="center"; textDiv.style.pointerEvents="none";
+  document.body.appendChild(textDiv);
+
+  let flickerInterval=setInterval(()=>{textDiv.style.opacity=Math.random()*0.5+0.5;},150);
+
+  setTimeout(()=>{
+    clearInterval(flickerInterval);
+    document.body.removeChild(textDiv);
+    window.location.href="main.html"; // replace with your main page
+  },6000);
+}
+
+// NO click handling
+function handleNoClick(){
+  noClickCount++;
+  let videoFiles=["no1.mp4","no2.mp4","no3.mp4"];
+  if(noClickCount<=3){
+    let vid=document.createElement("video");
+    vid.src=videoFiles[noClickCount-1]; vid.autoplay=true; vid.controls=true;
+    vid.style.position="fixed"; vid.style.top="50%"; vid.style.left="50%";
+    vid.style.transform="translate(-50%,-50%)"; vid.style.width="80%"; vid.style.maxWidth="600px"; vid.style.zIndex=10000;
+    document.body.appendChild(vid);
+  } else {
+    alert("Okay fine 😅 Now please click YES!"); 
+  }
+}
+</script>
+
+</body>
+</html>
